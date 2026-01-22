@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Recherche de films{% endblock %}
+
+{% block content %}
+<h2>Recherche de films (API TMDb)</h2>
+
+<form method="POST" action="{{ url_for('search') }}" class="mt-3 mb-4">
+  <div class="input-group">
+    <input type="text" name="query" class="form-control"
+           placeholder="Entrez un titre de film..." required>
+    <button class="btn btn-primary" type="submit">Rechercher</button>
+  </div>
+</form>
+
+{% if query %}
+  <h5>Résultats pour : "{{ query }}"</h5>
+{% endif %}
+
+<div class="row mt-3">
+  {% for film in results %}
+  <div class="col-md-3 mb-4">
+    <div class="card h-100 bg-secondary text-light">
+      {% if film.poster_path %}
+      <img src="https://image.tmdb.org/t/p/w342{{ film.poster_path }}"
+           class="card-img-top" alt="{{ film.title }}">
+      {% else %}
+      <div class="card-img-top d-flex align-items-center justify-content-center bg-dark text-white" style="height: 200px;">
+        Pas d'image
+      </div>
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ film.title }}</h5>
+        <p class="text-muted small">
+          Sortie : {{ film.release_date or "N/A" }}<br>
+          Note : {{ film.vote_average or "N/A" }}/10
+        </p>
+        <p class="small">
+          {{ film.overview[:150] }}{% if film.overview and film.overview|length > 150 %}...{% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if results|length == 0 and query %}
+<p>Aucun film trouvé.</p>
+{% endif %}
+{% endblock %}

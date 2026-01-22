@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Catalogue{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Catalogue (films stockés en base MySQL)</h2>
+
+<div class="row">
+  {% for film in movies %}
+  <div class="col-md-3 mb-4">
+    <div class="card h-100 bg-secondary text-light">
+      {% if film.poster_path %}
+      <img src="https://image.tmdb.org/t/p/w342{{ film.poster_path }}"
+           class="card-img-top" alt="{{ film.title }}">
+      {% else %}
+      <div class="card-img-top d-flex align-items-center justify-content-center bg-dark text-white" style="height: 200px;">
+        Pas d'image
+      </div>
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ film.title }}</h5>
+        <p class="text-muted small">
+          Sortie : {{ film.release_date or "N/A" }}<br>
+          Note : {{ film.vote_average or "N/A" }}/10
+        </p>
+        <p class="small">
+          {{ film.overview[:150] }}{% if film.overview and film.overview|length > 150 %}...{% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if movies|length == 0 %}
+<p>Aucun film en base.</p>
+{% endif %}
+{% endblock %}
