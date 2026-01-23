@@ -41,6 +41,7 @@ les données sont modélisées, stockées, traitées et exposées via une API.
 
 ##  Structure du projet
 
+```bash
 Movie-Data-API/
 ├── app.py # API Flask
 ├── import_movies.py # Script d’ingestion des données
@@ -51,6 +52,7 @@ Movie-Data-API/
 ├── static/ # Fichiers CSS / assets
 └── templates/ # Pages HTML
 
+```
 ---
 
 ##  Base de données
